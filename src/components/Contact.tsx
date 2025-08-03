@@ -30,27 +30,38 @@ const Contact: React.FC = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        service: '',
-        message: ''
-      });
-    }, 3000);
-  };
+  e.preventDefault();
+  setIsSubmitting(true);
+
+  try {
+    const response = await fetch('https://formspree.io/f/mwpqnnoq', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+
+    if (response.ok) {
+      setIsSubmitted(true);
+
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          service: '',
+          message: ''
+        });
+      }, 3000);
+    } else {
+      console.error('Form submission error');
+    }
+  } catch (error) {
+    console.error('Error submitting form:', error);
+  }
 
   return (
     <section id="contact" className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
