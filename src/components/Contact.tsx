@@ -63,6 +63,10 @@ const Contact: React.FC = () => {
     console.error('Error submitting form:', error);
   }
 
+  setIsSubmitting(false);
+};
+
+
   return (
     <section id="contact" className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
